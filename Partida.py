@@ -30,7 +30,6 @@ class Partida:
             eventos_mouse_button_down = [evento for evento in eventos if evento.type == pygame.MOUSEBUTTONDOWN]
             evento_exit = [evento for evento in eventos if evento.type == pygame.QUIT]
 
-            #interfaz.reimprimir_fondo()
             interfaz.imprimir_tablero()
 
             for evento in eventos:

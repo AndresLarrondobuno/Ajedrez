@@ -12,8 +12,9 @@ class Casilla:
 
         self.x, self.y = coordenadas
         self.coordenadas = coordenadas
-        self.origen_de_dibujo = (int(self.x*self.ancho)+1, int(self.y*self.alto))
+        self.origen_de_dibujo = (int(self.x*self.ancho)+1, int(self.y*self.alto)+1)
         self.rect = Rect(self.origen_de_dibujo[0],self.origen_de_dibujo[1], self.ancho, self.alto)
+
         self.imagen = Surface(self.tamano)
         self.paridad = None
         self.color = None
@@ -21,6 +22,7 @@ class Casilla:
 
         self.paridad_y_color()
         self.sprite = SpriteParaCasilla(self)
+        self.pieza = None
 
 
     def __repr__(self) -> str:

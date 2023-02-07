@@ -29,10 +29,6 @@ class Interfaz:
     def imprimir_tablero(self):
         self.sprites_para_casillas.draw(self.ventana_principal)
         self.sprites_para_piezas.draw(self.ventana_principal)
-    
-
-    def reimprimir_fondo(self):
-        self.ventana_principal.blit(self.background, Interfaz.origen_de_dibujo)
 
 
     def asignar_sprites_a_piezas(self):        
@@ -40,18 +36,17 @@ class Interfaz:
             pieza.sprite = SpriteParaPieza(pieza.imagen, pieza.casilla_ocupada)
         
             
-    
     def asignar_imagenes_a_piezas(self):
         diccionario = AdministradorDeImagenes.diccionario_para_vincular_nombres_de_piezas_a_imagenes() 
+        tamano_de_pieza = tuple([0.8 * elemento for elemento in Interfaz.tamano_casilla])
 
         for pieza in self.tablero.piezas:
             if pieza.color == "negra":
                 imagen = diccionario[pieza.nombre + "_n"]
-                pieza.imagen = AdministradorDeImagenes.aplicar_antialiasing(imagen, Interfaz.tamano_casilla)
+                pieza.imagen = AdministradorDeImagenes.aplicar_antialiasing(imagen, tamano_de_pieza)
             elif pieza.color == "blanca":
                 imagen = diccionario[pieza.nombre + "_b"]
-                pieza.imagen = AdministradorDeImagenes.aplicar_antialiasing(imagen, Interfaz.tamano_casilla)
-
+                pieza.imagen = AdministradorDeImagenes.aplicar_antialiasing(imagen, tamano_de_pieza)
 
 
     def sprite_group_piezas(self):

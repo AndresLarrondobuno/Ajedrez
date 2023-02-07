@@ -69,19 +69,43 @@ pygame.init()
 
 ventana_ppal = pygame.display.set_mode((700,700))
 
-imagen = pygame.image.load(r"imagenes de piezas\128h\w_pawn_png_128px.png")
+imagen = pygame.image.load(r"imagenes de piezas\w_pawn_png_128px.png")
+                           
 
 def aplicar_antialiasing(imagen):
     imagen = imagen.convert_alpha()
     imagen_escalada_con_antialiasing = pygame.transform.smoothscale(imagen, (70, 70))
     return imagen_escalada_con_antialiasing
 
+
+def coordenadas_centradas_del_sprite_pieza(rect_contenedor, rect_contenido):
+    rect = pygame.Rect(rect_contenido)
+    diferencia_de_ancho = rect_contenedor.width - rect_contenido.width
+    rect.x += diferencia_de_ancho //2
+    rect.y += diferencia_de_ancho //2 + 3
+    return rect
+
+
+
+rect_grande = pygame.Rect(0, 0, 100, 100)
+superficie_rect_grande = pygame.Surface(rect_grande.size)
+
+rect_chico = pygame.Rect(0, 0, 75, 75)
+superficie_rect_chico = pygame.Surface(rect_chico.size)
+
 run = True
 
 while run:
 
+    coordenadas_pieza = coordenadas_centradas_del_rect_contenido(rect_grande, rect_chico)
     ventana_ppal.fill("white")
-    ventana_ppal.blit(aplicar_antialiasing(imagen), (0,0))
+    ventana_ppal.blit(superficie_rect_grande, (0,0))
+    ventana_ppal.blit(superficie_rect_chico, coordenadas_pieza)
+    superficie_rect_grande.fill("yellow")
+    superficie_rect_chico.fill("red")
+
+    
+
     for evento in pygame.event.get():
         if evento == pygame.QUIT:
             run = False
