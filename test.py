@@ -95,9 +95,9 @@ superficie_rect_chico = pygame.Surface(rect_chico.size)
 
 run = True
 
-while run:
+'''while run:
 
-    coordenadas_pieza = coordenadas_centradas_del_rect_contenido(rect_grande, rect_chico)
+    coordenadas_pieza = coordenadas_centradas_del_sprite_pieza(rect_grande, rect_chico)
     ventana_ppal.fill("white")
     ventana_ppal.blit(superficie_rect_grande, (0,0))
     ventana_ppal.blit(superficie_rect_chico, coordenadas_pieza)
@@ -110,9 +110,16 @@ while run:
         if evento == pygame.QUIT:
             run = False
             exit()
-    pygame.display.update()
+    pygame.display.update()'''
 
 
+frutas = ["banana", "pera", "manzana"]
 
+frutas_amarillas = frutas[:1]
+
+print(frutas_amarillas[0])
+print(frutas[0])
+
+print(frutas_amarillas == frutas[0])
 
 

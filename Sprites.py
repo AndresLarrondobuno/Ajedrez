@@ -4,10 +4,11 @@ class SpriteParaPieza(pygame.sprite.Sprite):
     def __init__(self, imagen, casilla_inicial):
         super().__init__()
         self.image = imagen
-        self.rect = self.posicion_centrada_en_casilla(casilla_inicial)
+        self.rect = None
+        self.mover_a_casilla(casilla_inicial)
         
         
-    def posicion_centrada_en_casilla(self, casilla):
+    def mover_a_casilla(self, casilla):
         casilla_x, casilla_y = casilla.origen_de_dibujo
         rect_pieza = pygame.Rect(casilla_x, casilla_y, casilla.ancho*0.8, casilla.alto*0.8)
 
@@ -15,7 +16,12 @@ class SpriteParaPieza(pygame.sprite.Sprite):
 
         rect_pieza.x += diferencia_de_ancho //2
         rect_pieza.y += diferencia_de_ancho //2 + 3
-        return rect_pieza
+
+        self.rect = rect_pieza
+    
+
+    def quitar_pieza_del_tablero(self):
+        self.kill()
         
         
 
@@ -38,7 +44,7 @@ class SpriteParaResaltador(pygame.sprite.Sprite):
     
     
     def update(self, superficie, casilla):
-        pygame.draw.rect(superficie, "Green", casilla.rect, 1)
+        pygame.draw.rect(superficie, "Green", casilla.rect, 2)
         
     
 

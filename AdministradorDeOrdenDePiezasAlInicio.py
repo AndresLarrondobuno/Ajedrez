@@ -1,14 +1,14 @@
 from Pieza import Peon, Alfil, Caballo, Torre, Reina, Rey
 
-class AdministradorDePiezas:
+class AdministradorDeOrdenDePiezasAlInicio:
 
     @staticmethod #devuelve lista de piezas, pudiendo filtrar por color
     def lista_ordenada_de_piezas():
         lista_de_piezas = []
-        lista_ordenada_de_nombres = AdministradorDePiezas.lista_ordenada_de_nombres_de_piezas()
+        lista_ordenada_de_nombres = AdministradorDeOrdenDePiezasAlInicio.lista_ordenada_de_nombres_de_piezas()
 
         for string in lista_ordenada_de_nombres:
-            pieza = AdministradorDePiezas.string_a_pieza(string)
+            pieza = AdministradorDeOrdenDePiezasAlInicio.string_a_pieza(string)
             lista_de_piezas.append(pieza)
 
         return lista_de_piezas

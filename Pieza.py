@@ -6,8 +6,9 @@ class Pieza:
         self.nombre = nombre
         self.color = color
         self.casilla_ocupada = None
-        self.tocada = None
+        self.tocada = False
         self.sprite = None
+        self.posicion = None
     
 
     def __repr__(self) -> str:

@@ -2,48 +2,53 @@ import pygame
 from AdministradorDeEventosPygame import AdministradorDeEventosPygame
 from TableroDeAjedrez import TableroDeAjedrez
 from Interfaz import Interfaz
+from Jugador import Jugador
+from Turno import Turno
+from Arbitro import Arbitro
 
 
 pygame.init()
 
 class Partida:
-    FPS = 60
+    FPS = 20
 
     def __init__(self):
         self.tablero = TableroDeAjedrez(self)
         self.interfaz = Interfaz(self)
-        self.reloj = pygame.time.Clock()
         self.administrador_de_eventos_pygame = AdministradorDeEventosPygame(self)
+        self.arbitro = Arbitro(self)
+        self.turno = Turno(self)
+        self.jugador_negras, self.jugador_blancas = Jugador(self, "negras"), Jugador(self, "blancas")
+
+        self.jugador_activo = self.jugador_blancas
+
+        self.reloj = pygame.time.Clock()
         self.run = True
-       
         self.bucle_principal()
     
 
     def bucle_principal(self):
+        
         administrador_de_eventos_pygame = self.administrador_de_eventos_pygame
         interfaz = self.interfaz
         
-        while self.run ==True:
-            posicion_mouse = pygame.mouse.get_pos()
+        while self.run:
             eventos = pygame.event.get()
-            eventos_mouse_motion = [evento for evento in eventos if evento.type == pygame.MOUSEMOTION]
-            eventos_mouse_button_down = [evento for evento in eventos if evento.type == pygame.MOUSEBUTTONDOWN]
-            evento_exit = [evento for evento in eventos if evento.type == pygame.QUIT]
+            evento_mouse_button_down = administrador_de_eventos_pygame.get_evento_por_tipo(eventos, pygame.MOUSEBUTTONDOWN)
+            evento_exit = administrador_de_eventos_pygame.get_evento_por_tipo(eventos, pygame.QUIT)
 
             interfaz.imprimir_tablero()
-
-            for evento in eventos:
-                administrador_de_eventos_pygame.cerrar(evento)
-                administrador_de_eventos_pygame.get_casilla_bajo_hover(evento)
-
+            administrador_de_eventos_pygame.seleccionar_casilla(evento_mouse_button_down)
+            administrador_de_eventos_pygame.cerrar(evento_exit)
 
             self.reloj.tick(Partida.FPS)
             pygame.display.flip()
+            pygame.event.pump()
   
 
+def main():
+    Partida()
 
-    
-
-
-partida = Partida()
+if __name__ == "__main__":
+    main()
 

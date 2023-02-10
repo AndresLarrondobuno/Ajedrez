@@ -11,39 +11,93 @@ class AdministradorDeEventosPygame:
         self.eventos_teclado_key_down = []
         self.evento_exit = None
 
+    
+    def get_evento_por_tipo(self, eventos, tipo_de_evento):
+        for evento in eventos:
+            if evento.type == tipo_de_evento:
+                return evento
+
+
     def cerrar(self, evento):
-        if evento.type == pygame.QUIT:
+        if evento:
             self.partida.run = False
             pygame.quit()
             exit()
 
                     
-    def get_casilla_bajo_hover(self, evento):
+    def get_casilla_bajo_hover(self):
         posicion_mouse = pygame.mouse.get_pos()
+        casillas = self.partida.tablero.casillas
+
+        for casilla in casillas:
+            if casilla.rect.collidepoint(posicion_mouse):
+                return casilla
+    
+
+    def get_casilla_seleccionada(self):
+        tablero = self.partida.tablero
+        for casilla in tablero.casillas:
+            if casilla.seleccionada:
+                return casilla
+
+
+    def seleccionar_pieza_aliada(self):
+        jugador_activo = self.partida.jugador_activo
+        ultima_casilla_seleccionada = self.get_casilla_seleccionada()
+
+        pieza_fue_tocada = ultima_casilla_seleccionada.ocupada
+        pieza_es_aliada = ultima_casilla_seleccionada.pieza in jugador_activo.piezas
+
+        if pieza_fue_tocada and pieza_es_aliada:
+            self.quitar_seleccion_a_piezas()
+            pieza_atacante = ultima_casilla_seleccionada.pieza
+            pieza_atacante.tocada = True
+            jugador_activo.pieza_tocada = pieza_atacante
+            
+            
+
+    def seleccionar_casilla(self, evento_click):
+        ultima_casilla_clickeada = self.partida.tablero.ultima_casilla_clickeada
+        casilla_clickeada = self.get_casilla_bajo_hover()
+        jugador_activo = self.partida.jugador_activo
+
+        if evento_click:
+            seleccion_repetida = ( casilla_clickeada == ultima_casilla_clickeada )
+
+            if seleccion_repetida == False:
+                self.quitar_seleccion_a_casillas()
+                casilla_clickeada.seleccionada = True
+                self.partida.tablero.ultima_casilla_clickeada = casilla_clickeada
+                if self.pieza_fue_tocada():
+                    jugador_activo.mover_pieza(jugador_activo.pieza_tocada, casilla_clickeada)
+                else:
+                    self.seleccionar_pieza_aliada()
+                    
+                #print(f"clickeaste en otra casilla: {casilla_clickeada}")
+                
+            elif seleccion_repetida:
+                casilla_clickeada.seleccionada = False
+                self.partida.tablero.ultima_casilla_clickeada = casilla_clickeada
+                #print(f"clickeaste en la misma casilla: {casilla_clickeada}")
+
+
+    def pieza_fue_tocada(self):
+        jugador_activo = self.partida.jugador_activo
+        for pieza in jugador_activo.piezas:
+            if pieza.tocada:
+                return True
+
         
-        if evento.type == pygame.MOUSEMOTION:
-            for casilla in self.partida.tablero.casillas:
-                if casilla.rect.collidepoint(posicion_mouse):
-                    print(casilla)
-                    #casilla.bajoHover = True
-                    #cuando vuelve a iterar tengo que buscar la casilla falgeada
-                    return casilla
-    
-    
-    def casilla_seleccionada(self, evento):
-        if evento.type == pygame.MOUSEBUTTONDOWN and self.mouse_dentro_del_tablero(evento) and self.partida.eleccion_de_clase_realizada():
-            casilla_bajo_hover = self.get_casilla_bajo_hover(evento)
-            interfaz = self.partida.interfaz
-
-            self.quitar_seleccion_a_casillas()
-            casilla_bajo_hover.seleccionada = True
-    
-
     def quitar_seleccion_a_casillas(self):
-        for casilla in self.tablero:
+        for casilla in self.tablero.casillas:
             casilla.seleccionada = False
 
-    
+
+    def quitar_seleccion_a_piezas(self):
+        jugador_activo = self.partida.jugador_activo
+        for pieza in jugador_activo.piezas:
+            pieza.tocada = False
+
 
     def mouse_dentro_del_tablero(self, evento):
         ventana_principal = self.partida.interfaz.ventana_principal

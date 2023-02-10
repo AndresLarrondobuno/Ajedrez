@@ -71,10 +71,16 @@ class Interfaz:
 
     def resaltar_casilla(self, casilla):
         sprite_resaltador = self.spritesDeResaltado.sprites()[0]
-        if casilla != None:
-            sprite_resaltador.rect = casilla.rect
-            sprite_resaltador.image = casilla.imagen
-            self.spritesDeResaltado.update(self.ventana_principal, casilla)
+        sprite_resaltador.rect = casilla.rect
+        sprite_resaltador.image = None
+        self.spritesDeResaltado.update(self.ventana_principal, casilla)
+    
+
+    
+
+        
+
+        
 
 
     
