@@ -1,4 +1,5 @@
 import pygame
+from Movimiento import Movimiento
 
 class AdministradorDeEventosPygame:
     
@@ -57,28 +58,27 @@ class AdministradorDeEventosPygame:
             
 
     def seleccionar_casilla(self, evento_click):
-        ultima_casilla_clickeada = self.partida.tablero.ultima_casilla_clickeada
-        casilla_clickeada = self.get_casilla_bajo_hover()
-        jugador_activo = self.partida.jugador_activo
-
+        casilla_clickeada_previamente = self.partida.tablero.ultima_casilla_clickeada
+        casilla_clickeada_actualmente = self.get_casilla_bajo_hover()
+        
         if evento_click:
-            seleccion_repetida = ( casilla_clickeada == ultima_casilla_clickeada )
+            partida = self.partida
+            jugador_activo = self.partida.jugador_activo
+            seleccion_repetida = ( casilla_clickeada_actualmente == casilla_clickeada_previamente )
 
             if seleccion_repetida == False:
                 self.quitar_seleccion_a_casillas()
-                casilla_clickeada.seleccionada = True
-                self.partida.tablero.ultima_casilla_clickeada = casilla_clickeada
+                casilla_clickeada_actualmente.seleccionada = True
+                self.partida.tablero.ultima_casilla_clickeada = casilla_clickeada_actualmente
                 if self.pieza_fue_tocada():
-                    jugador_activo.mover_pieza(jugador_activo.pieza_tocada, casilla_clickeada)
+                    movimiento = Movimiento(partida, casilla_clickeada_previamente, casilla_clickeada_actualmente )
+                    jugador_activo.mover_pieza(movimiento)
                 else:
                     self.seleccionar_pieza_aliada()
-                    
-                #print(f"clickeaste en otra casilla: {casilla_clickeada}")
-                
+                                    
             elif seleccion_repetida:
-                casilla_clickeada.seleccionada = False
-                self.partida.tablero.ultima_casilla_clickeada = casilla_clickeada
-                #print(f"clickeaste en la misma casilla: {casilla_clickeada}")
+                casilla_clickeada_actualmente.seleccionada = False
+                self.partida.tablero.ultima_casilla_clickeada = casilla_clickeada_actualmente
 
 
     def pieza_fue_tocada(self):

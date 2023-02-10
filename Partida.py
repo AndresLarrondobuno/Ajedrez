@@ -10,7 +10,7 @@ from Arbitro import Arbitro
 pygame.init()
 
 class Partida:
-    FPS = 20
+    FPS = 60
 
     def __init__(self):
         self.tablero = TableroDeAjedrez(self)

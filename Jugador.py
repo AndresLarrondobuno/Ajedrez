@@ -1,3 +1,4 @@
+from Movimiento import Movimiento
 
 class Jugador:
 
@@ -20,11 +21,12 @@ class Jugador:
         return f"jugador {self.color}"
 
 
-    def mover_pieza(self, pieza_atacante, casilla_destino):
-        casilla_de_partida = pieza_atacante.casilla_ocupada
+    def mover_pieza(self, movimiento:Movimiento):
+        pieza_atacante = self.pieza_tocada
         pieza_atacada = casilla_destino.pieza
+        casilla_de_partida = pieza_atacante.casilla_ocupada
         
-
+        
         casilla_destino.pieza = pieza_atacante
         casilla_de_partida.pieza = None
         pieza_atacante.casilla_ocupada = casilla_destino
@@ -39,7 +41,7 @@ class Jugador:
             self.comer_pieza(pieza_atacada)
             
         
-        pieza_atacante.sprite.mover_a_casilla(casilla_destino)
+        self.pieza_tocada.sprite.mover_a_casilla(movimiento.casilla_atacada)
         self.partida.arbitro.pasar_turno()
         
 
