@@ -19,12 +19,10 @@ class Arbitro:
         jugador_negras, jugador_blancas = self.partida.jugador_negras, self.partida.jugador_blancas
 
         if turno.numero_de_turno % 2:
-            print(f"empieza el turno de {jugador_blancas}")
             self.partida.jugador_activo = jugador_blancas
             jugador_blancas.toca_moverse = True
             jugador_negras.toca_moverse = False
         else:
-            print(f"empieza el turno de {jugador_negras}")
             self.partida.jugador_activo = jugador_negras
             jugador_negras.toca_moverse = True
             jugador_blancas.toca_moverse = False

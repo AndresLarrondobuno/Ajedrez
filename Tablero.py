@@ -1,12 +1,12 @@
 from Casilla import Casilla
-from AdministradorDeOrdenDePiezasAlInicio import AdministradorDeOrdenDePiezasAlInicio
+from OrdenadorDePiezas import OrdenadorDePiezas
 
-class TableroDeAjedrez:
+class Tablero:
     tamano = (650, 650)
 
     def __init__(self, partida):
         self.partida = partida
-        self.ancho, self.alto = TableroDeAjedrez.tamano 
+        self.ancho, self.alto = Tablero.tamano 
         self.ancho_en_casillas, self.alto_en_casillas = 8, 8
         
         self.casillas = []
@@ -15,7 +15,7 @@ class TableroDeAjedrez:
         self.casillas_iniciales_para_negras = self.casillas_ocupadas_al_inicio("negras")
         self.casillas_iniciales_para_blancas = self.casillas_ocupadas_al_inicio("blancas")
 
-        self.piezas = AdministradorDeOrdenDePiezasAlInicio.lista_ordenada_de_piezas()
+        self.piezas = OrdenadorDePiezas.lista_ordenada_de_piezas(partida)
         self.asignar_posicion_a_piezas()
         self.piezas_negras = self.piezas_ordenadas_para("negras")
         self.piezas_blancas = self.piezas_ordenadas_para("blancas")

@@ -22,42 +22,18 @@ class Jugador:
 
 
     def mover_pieza(self, movimiento:Movimiento):
-        pieza_atacante = self.pieza_tocada
-        pieza_atacada = casilla_destino.pieza
-        casilla_de_partida = pieza_atacante.casilla_ocupada
-        
-        
-        casilla_destino.pieza = pieza_atacante
-        casilla_de_partida.pieza = None
-        pieza_atacante.casilla_ocupada = casilla_destino
+        if movimiento.valido:
+            if movimiento.pieza_atacada:
+                movimiento.pieza_atacante.comer_pieza(movimiento.pieza_atacada)
 
-        casilla_de_partida.ocupada == False
-        casilla_destino.ocupada = True
-
-        pieza_atacante.tocada = False
-        
-        if pieza_atacada:
-            print(f"pieza comida: {pieza_atacada}")
-            self.comer_pieza(pieza_atacada)
-            
-        
-        self.pieza_tocada.sprite.mover_a_casilla(movimiento.casilla_atacada)
-        self.partida.arbitro.pasar_turno()
+            self.pieza_tocada.sprite.mover_a_casilla(movimiento.casilla_atacada)
+            self.pieza_tocada.tocada == False
+            self.pieza_tocada == None
+            self.partida.arbitro.pasar_turno()
+        else:
+            self.partida.interfaz.resaltar_casilla(movimiento.casilla_atacada, "Red")
         
 
-    def comer_pieza(self, pieza_atacada):
-        if self == self.partida.jugador_negras:
-            jugador_atacado = self.partida.jugador_blancas
-        elif self == self.partida.jugador_blancas:
-            jugador_atacado = self.partida.jugador_negras
-        
-        try:
-            jugador_atacado.piezas.remove(pieza_atacada)
-        except ValueError:
-            print(f"pieza atacada: {pieza_atacada}")
-        
-        self.piezas_comidas.append(pieza_atacada)
-        pieza_atacada.sprite.quitar_pieza_del_tablero()
 
 
         

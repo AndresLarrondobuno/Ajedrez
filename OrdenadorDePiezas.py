@@ -1,45 +1,45 @@
 from Pieza import Peon, Alfil, Caballo, Torre, Reina, Rey
 
-class AdministradorDeOrdenDePiezasAlInicio:
+class OrdenadorDePiezas:
 
     @staticmethod #devuelve lista de piezas, pudiendo filtrar por color
-    def lista_ordenada_de_piezas():
+    def lista_ordenada_de_piezas(partida):
         lista_de_piezas = []
-        lista_ordenada_de_nombres = AdministradorDeOrdenDePiezasAlInicio.lista_ordenada_de_nombres_de_piezas()
+        lista_ordenada_de_nombres = OrdenadorDePiezas.lista_ordenada_de_nombres_de_piezas()
 
         for string in lista_ordenada_de_nombres:
-            pieza = AdministradorDeOrdenDePiezasAlInicio.string_a_pieza(string)
+            pieza = OrdenadorDePiezas.string_a_pieza(string, partida)
             lista_de_piezas.append(pieza)
 
         return lista_de_piezas
 
 
     @staticmethod
-    def string_a_pieza(string):
+    def string_a_pieza(string, partida):
         if "peon" in string and "_n" in string:
-            pieza = Peon("peon", "negra")
+            pieza = Peon(partida, "peon", "negra")
         elif "peon" in string and "_b" in string:
-            pieza = Peon("peon", "blanca")
+            pieza = Peon(partida, "peon", "blanca")
         elif "alfil" in string and "_n" in string:
-            pieza = Alfil("alfil", "negra")
+            pieza = Alfil(partida, "alfil", "negra")
         elif "alfil" in string and "_b" in string:
-            pieza = Alfil("alfil", "blanca")
+            pieza = Alfil(partida, "alfil", "blanca")
         elif "caballo" in string and "_n" in string:
-            pieza = Caballo("caballo", "negra")
+            pieza = Caballo(partida, "caballo", "negra")
         elif "caballo" in string and "_b" in string:
-            pieza = Caballo("caballo", "blanca")
+            pieza = Caballo(partida, "caballo", "blanca")
         elif "torre" in string and "_n" in string:
-            pieza = Torre("torre", "negra")
+            pieza = Torre(partida, "torre", "negra")
         elif "torre" in string and "_b" in string:
-            pieza = Torre("torre", "blanca")
+            pieza = Torre(partida, "torre", "blanca")
         elif "reina" in string and "_n" in string:
-            pieza = Reina("reina", "negra")
+            pieza = Reina(partida, "reina", "negra")
         elif "reina" in string and "_b" in string:
-            pieza = Reina("reina", "blanca")
+            pieza = Reina(partida, "reina", "blanca")
         elif "rey" in string and "_n" in string:
-            pieza = Rey("rey", "negra")
+            pieza = Rey(partida, "rey", "negra")
         elif "rey" in string and "_b" in string:
-            pieza = Rey("rey", "blanca")
+            pieza = Rey(partida, "rey", "blanca")
         
         return pieza
     

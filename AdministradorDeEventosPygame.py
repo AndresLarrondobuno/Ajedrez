@@ -12,7 +12,7 @@ class AdministradorDeEventosPygame:
         self.eventos_teclado_key_down = []
         self.evento_exit = None
 
-    
+
     def get_evento_por_tipo(self, eventos, tipo_de_evento):
         for evento in eventos:
             if evento.type == tipo_de_evento:
@@ -50,12 +50,11 @@ class AdministradorDeEventosPygame:
         pieza_es_aliada = ultima_casilla_seleccionada.pieza in jugador_activo.piezas
 
         if pieza_fue_tocada and pieza_es_aliada:
-            self.quitar_seleccion_a_piezas()
             pieza_atacante = ultima_casilla_seleccionada.pieza
             pieza_atacante.tocada = True
             jugador_activo.pieza_tocada = pieza_atacante
             
-            
+
 
     def seleccionar_casilla(self, evento_click):
         casilla_clickeada_previamente = self.partida.tablero.ultima_casilla_clickeada
@@ -91,12 +90,6 @@ class AdministradorDeEventosPygame:
     def quitar_seleccion_a_casillas(self):
         for casilla in self.tablero.casillas:
             casilla.seleccionada = False
-
-
-    def quitar_seleccion_a_piezas(self):
-        jugador_activo = self.partida.jugador_activo
-        for pieza in jugador_activo.piezas:
-            pieza.tocada = False
 
 
     def mouse_dentro_del_tablero(self, evento):

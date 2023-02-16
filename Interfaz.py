@@ -1,12 +1,13 @@
 import pygame
 from AdministradorDeImagenes import AdministradorDeImagenes
 from Sprites import SpriteParaResaltador, SpriteParaPieza
-from TableroDeAjedrez import TableroDeAjedrez
+from Tablero import Tablero
+from TransformadorDeRects import TransformadorDeRects
 
 
 class Interfaz:
     pygame.font.init()
-    tamano_ventana_principal = TableroDeAjedrez.tamano
+    tamano_ventana_principal = Tablero.tamano
     tamano_casilla = (tamano_ventana_principal[0]/8, tamano_ventana_principal[1]/8)
     origen_de_dibujo = (0,0)
     fuente_base = pygame.font.SysFont("Arialblack", 16)
@@ -69,12 +70,19 @@ class Interfaz:
         return grupo
 
 
-    def resaltar_casilla(self, casilla):
+    def resaltar_casilla(self, casilla, color):
         sprite_resaltador = self.spritesDeResaltado.sprites()[0]
         sprite_resaltador.rect = casilla.rect
         sprite_resaltador.image = None
-        self.spritesDeResaltado.update(self.ventana_principal, casilla)
+        self.spritesDeResaltado.update(self.ventana_principal, casilla, color)
     
+
+    def sostener_pieza(self, pieza):
+        if pieza and pieza.tocada:
+            posicion_mouse = pygame.mouse.get_pos()
+            a = posicion_mouse[0] - Interfaz.tamano_casilla[0]//2
+            b = posicion_mouse[1] - Interfaz.tamano_casilla[1]//2
+            pieza.sprite.rect.topleft = a, b
 
     
 

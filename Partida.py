@@ -1,11 +1,10 @@
 import pygame
 from AdministradorDeEventosPygame import AdministradorDeEventosPygame
-from TableroDeAjedrez import TableroDeAjedrez
+from Tablero import Tablero
 from Interfaz import Interfaz
 from Jugador import Jugador
 from Turno import Turno
 from Arbitro import Arbitro
-
 
 pygame.init()
 
@@ -13,7 +12,7 @@ class Partida:
     FPS = 60
 
     def __init__(self):
-        self.tablero = TableroDeAjedrez(self)
+        self.tablero = Tablero(self)
         self.interfaz = Interfaz(self)
         self.administrador_de_eventos_pygame = AdministradorDeEventosPygame(self)
         self.arbitro = Arbitro(self)
@@ -39,16 +38,16 @@ class Partida:
 
             interfaz.imprimir_tablero()
             administrador_de_eventos_pygame.seleccionar_casilla(evento_mouse_button_down)
+            interfaz.sostener_pieza(self.jugador_activo.pieza_tocada)
             administrador_de_eventos_pygame.cerrar(evento_exit)
+            
 
             self.reloj.tick(Partida.FPS)
             pygame.display.flip()
             pygame.event.pump()
   
-
-def main():
-    Partida()
+    
 
 if __name__ == "__main__":
-    main()
+    Partida()
 
