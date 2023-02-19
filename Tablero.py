@@ -22,6 +22,10 @@ class Tablero:
         self.vincular_casillas_y_piezas()
 
         self.ultima_casilla_clickeada = None
+    
+
+    def posicion(self):
+        return self.piezas[:]
 
 
     def agregar_casillas(self):

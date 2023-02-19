@@ -2,7 +2,7 @@ from Pieza import Peon, Alfil, Caballo, Torre, Reina, Rey
 
 class OrdenadorDePiezas:
 
-    @staticmethod #devuelve lista de piezas, pudiendo filtrar por color
+    @staticmethod
     def lista_ordenada_de_piezas(partida):
         lista_de_piezas = []
         lista_ordenada_de_nombres = OrdenadorDePiezas.lista_ordenada_de_nombres_de_piezas()

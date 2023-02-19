@@ -3,8 +3,7 @@ from AdministradorDeEventosPygame import AdministradorDeEventosPygame
 from Tablero import Tablero
 from Interfaz import Interfaz
 from Jugador import Jugador
-from Turno import Turno
-from Arbitro import Arbitro
+from ControladorDeTurnos import ControladorDeTurnos
 
 pygame.init()
 
@@ -15,13 +14,12 @@ class Partida:
         self.tablero = Tablero(self)
         self.interfaz = Interfaz(self)
         self.administrador_de_eventos_pygame = AdministradorDeEventosPygame(self)
-        self.arbitro = Arbitro(self)
-        self.turno = Turno(self)
-        self.jugador_negras, self.jugador_blancas = Jugador(self, "negras"), Jugador(self, "blancas")
+        self.controlador_de_turnos = ControladorDeTurnos(self)
+        self.jugador_negras = Jugador(self, "negras")
+        self.jugador_blancas = Jugador(self, "blancas")
+        self.reloj = pygame.time.Clock()
 
         self.jugador_activo = self.jugador_blancas
-
-        self.reloj = pygame.time.Clock()
         self.run = True
         self.bucle_principal()
     

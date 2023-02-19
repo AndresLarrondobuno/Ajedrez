@@ -29,7 +29,7 @@ class Jugador:
             self.pieza_tocada.sprite.mover_a_casilla(movimiento.casilla_atacada)
             self.pieza_tocada.tocada == False
             self.pieza_tocada == None
-            self.partida.arbitro.pasar_turno()
+            self.partida.controlador_de_turnos.pasar_turno()
         else:
             self.partida.interfaz.resaltar_casilla(movimiento.casilla_atacada, "Red")
         
