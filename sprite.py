@@ -12,9 +12,9 @@ class SpriteCasilla(pg.sprite.Sprite):
         ventana.blit(self.image, (x,y))
 
 
-    def actualizar_posicion(self, casilla):
-        self.rect.x = casilla.rect.x
-        self.rect.y = casilla.rect.y
+    def actualizar_posicion(self, x, y):
+        self.rect.x = x
+        self.rect.y = y
 
 
 
@@ -34,6 +34,6 @@ class SpritePieza(pg.sprite.Sprite):
         ventana.blit(self.image, (x,y))
     
 
-    def actualizar_posicion(self, casilla_atacada):
-        self.rect.x = casilla_atacada.rect.x + 10
-        self.rect.y = casilla_atacada.rect.y + 10
+    def actualizar_posicion(self, x, y):
+        self.rect.x = x + 10
+        self.rect.y = y + 10

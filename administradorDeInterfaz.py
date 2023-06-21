@@ -29,7 +29,7 @@ class AdministradorDeInterfaz:
 
         for casilla in lista_casillas:
             casilla.sprite = SpriteCasilla(imagen_casilla_oscura) if casilla.color == 'oscura' else SpriteCasilla(imagen_casilla_clara)
-            casilla.sprite.actualizar_posicion(casilla)
+            casilla.sprite.actualizar_posicion(casilla.rect.x, casilla.rect.y)
 
 
     def setSpritesAPiezas(self, piezas):
@@ -49,7 +49,8 @@ class AdministradorDeInterfaz:
         mapa_piezas["rey_n"] = pg.image.load(r"imagenes de piezas\b_king_png_128px.png")
         
         for pieza in piezas:
-            imagen = mapa_piezas[pieza.nombre]
+            nombre_de_pieza_sin_sufijo = pieza.nombre[:-2]
+            imagen = mapa_piezas[nombre_de_pieza_sin_sufijo]
             pieza.sprite = SpritePieza(self.aplicar_antialiasing(imagen, pieza.rect.size))
 
 
@@ -61,7 +62,12 @@ class AdministradorDeInterfaz:
     def actualizar_posicion_de_piezas(self, tablero):
         for casilla in tablero.casillas:
             if casilla.pieza:
-                casilla.pieza.sprite.actualizar_posicion(casilla)
+                if casilla.pieza.seleccionada:
+                    x, y = pg.mouse.get_pos()
+                    casilla.pieza.sprite.actualizar_posicion(x-30, y-30)
+                else:
+                    x, y = casilla.rect.x, casilla.rect.y
+                    casilla.pieza.sprite.actualizar_posicion(x, y)
 
 
     def aplicar_antialiasing(self, imagen, tamano):

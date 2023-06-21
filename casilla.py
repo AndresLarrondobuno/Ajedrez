@@ -11,10 +11,11 @@ class Casilla:
         self.pieza = None
         self.color = None
         self.sprite = None
+        self.seleccionada = False
     
 
     def __repr__(self) -> str:
-        return str((self.coordenada_en_x, self.coordenada_en_y))
+        return str((self.coordenadas))
     
 
     def getRect(self):
@@ -25,6 +26,10 @@ class Casilla:
         rect.width = Tablero.ancho_casilla
         rect.height = Tablero.alto_casilla
         return rect
+    
+
+    def ocupada(self):
+        return True if self.pieza else False
 
 
 

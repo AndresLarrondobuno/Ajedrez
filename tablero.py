@@ -1,6 +1,6 @@
 import numpy as np
 from casilla import Casilla
-from pieza import Pieza
+from pieza import Pieza, Peon, Alfil, Caballo, Torre, Rey, Reina
 
 class Tablero:
     tamano = (650, 650)
@@ -33,36 +33,66 @@ class Tablero:
     
 
     def agregarPiezas(self):
-        mapa_piezas ={"peon_b":8,
-                    "torre_b":2,
-                    "caballo_b":2,
-                    "alfil_b":2,
-                    "reina_b":1,
-                    "rey_b":1,
-                    "peon_n":8,
-                    "torre_n":2,
-                    "caballo_n":2,
-                    "alfil_n":2,
-                    "reina_n":1,
-                    "rey_n":1}
+        def crearPieza(nombre):
+            if 'peon' in nombre:
+                return Peon(nombre)
+            elif 'alfil' in nombre:
+                return Alfil(nombre)
+            elif 'caballo' in nombre:
+                return Caballo(nombre)
+            elif 'torre' in nombre:
+                return Torre(nombre)
+            elif 'rey' in nombre:
+                return Rey(nombre)
+            elif 'reina' in nombre:
+                return Reina(nombre)
+
+        nombres_ordenados_de_piezas = [
+            "peon_b_0",
+            "peon_b_1",
+            "peon_b_2",
+            "peon_b_3",
+            "peon_b_4",
+            "peon_b_5",
+            "peon_b_6",
+            "peon_b_7",
+            "torre_b_0",
+            "caballo_b_1",
+            "alfil_b_2",
+            "reina_b_3",
+            "rey_b_4",
+            "alfil_b_5",
+            "caballo_b_6",
+            "torre_b_7",
+            "peon_n_0",
+            "peon_n_1",
+            "peon_n_2",
+            "peon_n_3",
+            "peon_n_4",
+            "peon_n_5",
+            "peon_n_6",
+            "peon_n_7",
+            "torre_n_0",
+            "caballo_n_1",
+            "alfil_n_2",
+            "reina_n_3",
+            "rey_n_4",
+            "alfil_n_5",
+            "caballo_n_6",
+            "torre_n_7"]
         
-        piezas_blancas = []
-        piezas_negras = []
+        piezas = []
+        for nombre in nombres_ordenados_de_piezas:
+            pieza = crearPieza(nombre)
+            piezas.append(pieza)
 
-        for nombre, cantidad in mapa_piezas.items():
-            for x in range(cantidad):
-                if '_b' in nombre:
-                    piezas_blancas.append(Pieza(nombre))
-                else:
-                    piezas_negras.append(Pieza(nombre))
-
-        piezas = np.array(piezas_blancas + piezas_negras)
+        piezas = np.array(piezas)
 
         indices_para_ordenar_piezas = [ 0,1,2,3,4,5,6,7,
-                                        8,10,12,14,15,13,11,9,
+                                        8,9,10,11,12,13,14,15,
 
                                         16,17,18,19,20,21,22,23,
-                                        25,29,27,30,31,28,26,24]
+                                        24,25,26,27,28,29,30,31]
 
         piezas_ordenadas = piezas[indices_para_ordenar_piezas]
         return list(piezas_ordenadas)
@@ -70,7 +100,8 @@ class Tablero:
 
     def setColorACasillas(self):
         matriz_tablero = np.reshape(self.casillas, (8,8))
-        for numero_de_fila, fila in enumerate(matriz_tablero):
+        filas_con_indices = enumerate(matriz_tablero)
+        for numero_de_fila, fila in filas_con_indices:
             for casilla in fila:
                 if numero_de_fila % 2:
                     casilla.color = 'clara' if casilla.coordenada_en_x % 2 else 'oscura'
@@ -108,6 +139,20 @@ class Tablero:
         self.colocarPiezasEnCasillas(fila_seis, peones_blancas)
         self.colocarPiezasEnCasillas(fila_uno, peones_negras)
         self.colocarPiezasEnCasillas(fila_cero, piezas_negras)
+    
+
+    def existe_casilla_seleccionada(self):
+        for casilla in self.casillas:
+            if casilla.seleccionada:
+                return True
+        return False
+
+
+    def get_casilla_seleccionada(self):
+        for casilla in self.casillas:
+            if casilla.seleccionada:
+                return casilla
+
 
 
 

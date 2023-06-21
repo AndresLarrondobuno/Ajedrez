@@ -14,6 +14,10 @@ elementos = np.ravel(matriz)
 for elemento in elementos:
     print(elemento)'''
 
-lista = [1,2,3]
-lista_np = np.array(lista)
-print(lista_np,lista_np.shape)
+lista = np.array([])
+np.insert(lista, 0, [1])
+print(lista)
+
+
+
+
