@@ -14,9 +14,14 @@ elementos = np.ravel(matriz)
 for elemento in elementos:
     print(elemento)'''
 
-lista = np.array([])
-np.insert(lista, 0, [1])
-print(lista)
+if __name__ == "__main__":
+    casilla_de_partida = 2
+    casilla_atacada = 3
+    casilla = 3
+
+    print( (casilla not in  [casilla_de_partida, casilla_atacada]) )
+
+
 
 
 

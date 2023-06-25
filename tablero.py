@@ -1,6 +1,6 @@
 import numpy as np
 from casilla import Casilla
-from pieza import Pieza, Peon, Alfil, Caballo, Torre, Rey, Reina
+from pieza import Peon, Alfil, Caballo, Torre, Rey, Reina
 
 class Tablero:
     tamano = (650, 650)
@@ -11,6 +11,8 @@ class Tablero:
         self.piezas = self.agregarPiezas()
         self.piezas_blancas = self.piezas[:16]
         self.piezas_negras = self.piezas[16:]
+        self.fila_de_promocion_de_blancas = 0
+        self.fila_de_promocion_de_negras = 7
         self.setColorACasillas()
         self.acomodarPiezasEnPosicionInicial()
         self.setRectAPiezas()
@@ -32,21 +34,22 @@ class Tablero:
         return casillas
     
 
-    def agregarPiezas(self):
-        def crearPieza(nombre):
-            if 'peon' in nombre:
-                return Peon(nombre)
-            elif 'alfil' in nombre:
-                return Alfil(nombre)
-            elif 'caballo' in nombre:
-                return Caballo(nombre)
-            elif 'torre' in nombre:
-                return Torre(nombre)
-            elif 'rey' in nombre:
-                return Rey(nombre)
-            elif 'reina' in nombre:
-                return Reina(nombre)
+    def crearPieza(self, nombre):
+        if 'peon' in nombre:
+            return Peon(self, nombre)
+        elif 'alfil' in nombre:
+            return Alfil(self, nombre)
+        elif 'caballo' in nombre:
+            return Caballo(self, nombre)
+        elif 'torre' in nombre:
+            return Torre(self, nombre)
+        elif 'rey' in nombre:
+            return Rey(self, nombre)
+        elif 'reina' in nombre:
+            return Reina(self, nombre)
 
+
+    def agregarPiezas(self):
         nombres_ordenados_de_piezas = [
             "peon_b_0",
             "peon_b_1",
@@ -83,7 +86,7 @@ class Tablero:
         
         piezas = []
         for nombre in nombres_ordenados_de_piezas:
-            pieza = crearPieza(nombre)
+            pieza = self.crearPieza(nombre)
             piezas.append(pieza)
 
         piezas = np.array(piezas)
@@ -104,9 +107,9 @@ class Tablero:
         for numero_de_fila, fila in filas_con_indices:
             for casilla in fila:
                 if numero_de_fila % 2:
-                    casilla.color = 'clara' if casilla.coordenada_en_x % 2 else 'oscura'
+                    casilla.color = 'clara' if casilla.x % 2 else 'oscura'
                 else:
-                    casilla.color = 'oscura' if casilla.coordenada_en_x % 2 else 'clara'
+                    casilla.color = 'oscura' if casilla.x % 2 else 'clara'
 
 
     def setRectAPiezas(self):
@@ -121,6 +124,7 @@ class Tablero:
     def colocarPiezasEnCasillas(self, casillas, piezas):
         for casilla, pieza in zip(casillas, piezas):
             casilla.pieza = pieza
+            pieza.casilla_inicial = casilla
 
 
     def acomodarPiezasEnPosicionInicial(self):
@@ -139,21 +143,11 @@ class Tablero:
         self.colocarPiezasEnCasillas(fila_seis, peones_blancas)
         self.colocarPiezasEnCasillas(fila_uno, peones_negras)
         self.colocarPiezasEnCasillas(fila_cero, piezas_negras)
-    
-
-    def existe_casilla_seleccionada(self):
-        for casilla in self.casillas:
-            if casilla.seleccionada:
-                return True
-        return False
 
 
     def get_casilla_seleccionada(self):
         for casilla in self.casillas:
             if casilla.seleccionada:
                 return casilla
-
-
-
 
 

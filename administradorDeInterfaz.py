@@ -11,6 +11,21 @@ class AdministradorDeInterfaz:
     tamano_casilla = (tamano_ventana_principal[0]/8, tamano_ventana_principal[1]/8)
     origen_de_dibujo = (0,0)
 
+    mapa_piezas = {
+    "peon_b" : pg.image.load(r"imagenes de piezas\w_pawn_png_128px.png"),
+    "peon_n" : pg.image.load(r"imagenes de piezas\b_pawn_png_128px.png"),
+    "alfil_b" : pg.image.load(r"imagenes de piezas\w_bishop_png_128px.png"),
+    "alfil_n" : pg.image.load(r"imagenes de piezas\b_bishop_png_128px.png"),
+    "caballo_b" : pg.image.load(r"imagenes de piezas\w_knight_png_128px.png"),
+    "caballo_n" : pg.image.load(r"imagenes de piezas\b_knight_png_128px.png"),
+    "torre_b" : pg.image.load(r"imagenes de piezas\w_rook_png_128px.png"),
+    "torre_n" : pg.image.load(r"imagenes de piezas\b_rook_png_128px.png"),
+    "reina_b" : pg.image.load(r"imagenes de piezas\w_queen_png_128px.png"),
+    "reina_n" : pg.image.load(r"imagenes de piezas\b_queen_png_128px.png"),
+    "rey_b" : pg.image.load(r"imagenes de piezas\w_king_png_128px.png"),
+    "rey_n" : pg.image.load(r"imagenes de piezas\b_king_png_128px.png")
+    }
+
     def __init__(self, tablero):
         self.ventana_principal = pg.display.set_mode(AdministradorDeInterfaz.tamano_ventana_principal)
         self.setSpritesACasillas(tablero.casillas)
@@ -29,29 +44,18 @@ class AdministradorDeInterfaz:
 
         for casilla in lista_casillas:
             casilla.sprite = SpriteCasilla(imagen_casilla_oscura) if casilla.color == 'oscura' else SpriteCasilla(imagen_casilla_clara)
-            casilla.sprite.actualizar_posicion(casilla.rect.x, casilla.rect.y)
+            casilla.sprite.actualizar_posicion(casilla)
+
+
+    def setSpriteAPieza(self, pieza):
+        nombre_de_pieza_sin_sufijo = pieza.nombre[:-2]
+        imagen = AdministradorDeInterfaz.mapa_piezas[nombre_de_pieza_sin_sufijo]
+        pieza.sprite = SpritePieza(self.aplicar_antialiasing(imagen, pieza.rect.size))
 
 
     def setSpritesAPiezas(self, piezas):
-        mapa_piezas = dict()
-
-        mapa_piezas["peon_b"] = pg.image.load(r"imagenes de piezas\w_pawn_png_128px.png")
-        mapa_piezas["peon_n"] = pg.image.load(r"imagenes de piezas\b_pawn_png_128px.png")
-        mapa_piezas["alfil_b"] = pg.image.load(r"imagenes de piezas\w_bishop_png_128px.png")
-        mapa_piezas["alfil_n"] = pg.image.load(r"imagenes de piezas\b_bishop_png_128px.png")
-        mapa_piezas["caballo_b"] = pg.image.load(r"imagenes de piezas\w_knight_png_128px.png")
-        mapa_piezas["caballo_n"] = pg.image.load(r"imagenes de piezas\b_knight_png_128px.png")
-        mapa_piezas["torre_b"] = pg.image.load(r"imagenes de piezas\w_rook_png_128px.png")
-        mapa_piezas["torre_n"] = pg.image.load(r"imagenes de piezas\b_rook_png_128px.png")
-        mapa_piezas["reina_b"] = pg.image.load(r"imagenes de piezas\w_queen_png_128px.png")
-        mapa_piezas["reina_n"] = pg.image.load(r"imagenes de piezas\b_queen_png_128px.png")
-        mapa_piezas["rey_b"] = pg.image.load(r"imagenes de piezas\w_king_png_128px.png")
-        mapa_piezas["rey_n"] = pg.image.load(r"imagenes de piezas\b_king_png_128px.png")
-        
         for pieza in piezas:
-            nombre_de_pieza_sin_sufijo = pieza.nombre[:-2]
-            imagen = mapa_piezas[nombre_de_pieza_sin_sufijo]
-            pieza.sprite = SpritePieza(self.aplicar_antialiasing(imagen, pieza.rect.size))
+            self.setSpriteAPieza(pieza)
 
 
     def imprimirTablero(self):
@@ -62,15 +66,14 @@ class AdministradorDeInterfaz:
     def actualizar_posicion_de_piezas(self, tablero):
         for casilla in tablero.casillas:
             if casilla.pieza:
-                if casilla.pieza.seleccionada:
-                    x, y = pg.mouse.get_pos()
-                    casilla.pieza.sprite.actualizar_posicion(x-30, y-30)
-                else:
-                    x, y = casilla.rect.x, casilla.rect.y
-                    casilla.pieza.sprite.actualizar_posicion(x, y)
+                casilla.pieza.sprite.actualizar_posicion(casilla)
 
 
     def aplicar_antialiasing(self, imagen, tamano):
         imagen = imagen.convert_alpha()
         imagen_escalada_con_antialiasing = pg.transform.smoothscale(imagen, tamano)
         return imagen_escalada_con_antialiasing
+    
+
+    def mostrar_menu_de_eleccion_para_promocion(self):
+        pass
